@@ -10,7 +10,7 @@ Aplicación móvil Android para que **docentes e instructores** de la Escuela de
 | Nombre | GitHub |
 |---|---|
 | Dangelo Rojas Pinto | @Dangelo-Rojas |
-| _Nombre de la pareja_ | _@usuario_ |
+| Benjamin Bastias Perez | @BasZG |
 
 ## 🎯 Problemática
 
@@ -74,7 +74,7 @@ app/src/main/java/cl/duoc/escuelacarabineros/
 
 1. Clonar el repositorio:
    ```bash
-   git clone https://github.com/Dangelo-Rojas/escuela_carabineros.git
+   git clone https://github.com/Dangelo-Rojas/escuela-carabineros.git
    ```
 2. Abrir la carpeta en **Android Studio** y esperar a que termine *Gradle Sync*.
 3. Ejecutar en un emulador o dispositivo con **Android 8.0 (API 26)** o superior (botón ▶ *Run 'app'*).
@@ -95,4 +95,4 @@ Kotlin · Jetpack Compose · Material 3 · Navigation Compose · ViewModel + Sta
 
 ## 📌 Planificación
 
-Tablero Trello: _pegar aquí el enlace_
+Tablero Trello: https://trello.com/b/I0o4mpcF/esfocar-desarrollo-de-aplicaci%C3%B3n-m%C3%B3vil
