@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Escuela de Carabineros</string>
+    <!-- Datos documentados en el README oficial del proyecto. -->
+    <string name="acerca_descripcion">Permite a docentes e instructores crear rúbricas, evaluar en terreno y compartir los resultados.</string>
+    <string name="acerca_integrantes">Dangelo Rojas Pinto · @Dangelo-Rojas\nBenjamin Bastias Perez · @BasZG</string>
+    <string name="acerca_academico">Evaluación Parcial 2 · DSY1105 – Desarrollo de Aplicaciones Móviles · Duoc UC.\nPrototipo académico con datos ficticios.</string>
 </resources>

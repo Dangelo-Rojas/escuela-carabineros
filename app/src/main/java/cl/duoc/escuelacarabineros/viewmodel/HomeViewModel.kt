@@ -20,13 +20,13 @@ data class HomeUiState(
 class HomeViewModel(
     private val rubricaRepository: RubricaRepository,
     private val authRepository: AuthRepository,
-    session: SessionManager
+    private val session: SessionManager
 ) : ViewModel() {
 
-    val nombreDocente: String = session.nombreDocente
+    val nombreDocente: String get() = session.nombreDocente
 
-    /** Solo el Administrador ve el botón "Administrar cuentas". */
-    val esAdministrador: Boolean = session.esAdministrador
+    /** Solo el Administrador ve la sección de cuentas. */
+    val esAdministrador: Boolean get() = session.esAdministrador
 
     val uiState: StateFlow<HomeUiState> = rubricaRepository.observarRubricas()
         .map { HomeUiState(rubricas = it, cargando = false) }

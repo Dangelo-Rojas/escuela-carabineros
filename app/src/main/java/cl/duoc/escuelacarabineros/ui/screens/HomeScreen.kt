@@ -14,23 +14,16 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -38,8 +31,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -48,6 +39,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import cl.duoc.escuelacarabineros.data.local.entity.RubricaConCriterios
@@ -55,97 +48,20 @@ import cl.duoc.escuelacarabineros.ui.components.EstadoVacio
 import cl.duoc.escuelacarabineros.viewmodel.AppViewModelProvider
 import cl.duoc.escuelacarabineros.viewmodel.HomeViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onCrearRubrica: () -> Unit,
     onEvaluar: (Long) -> Unit,
     onEditar: (Long) -> Unit,
-    onHistorial: () -> Unit,
-    onAdministrarCuentas: () -> Unit,
-    onCerrarSesion: () -> Unit,
-    modoTema: String,
-    onCambiarTema: (String) -> Unit,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val estado by viewModel.uiState.collectAsState()
     var porEliminar by remember { mutableStateOf<RubricaConCriterios?>(null) }
-    var mostrarTemas by remember { mutableStateOf(false) }
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Column {
-                        Text("Mis rúbricas")
-                        Text(
-                            "Hola, ${viewModel.nombreDocente}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
-                ),
-                actions = {
-                    // Solo el Administrador ve la gestión de cuentas
-                    if (viewModel.esAdministrador) {
-                        IconButton(onClick = onAdministrarCuentas) {
-                            Icon(Icons.Filled.AccountCircle, contentDescription = "Administrar cuentas")
-                        }
-                    }
-                    IconButton(onClick = onHistorial) {
-                        Icon(Icons.AutoMirrored.Filled.List, contentDescription = "Historial de evaluaciones")
-                    }
-                    IconButton(onClick = {
-                        viewModel.cerrarSesion()
-                        onCerrarSesion()
-                    }) {
-                        Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Cerrar sesión")
-                    }
-
-                    Box {
-                        IconButton(onClick = { mostrarTemas = true }) {
-                            Icon(
-                                imageVector = Icons.Filled.MoreVert,
-                                contentDescription = "Cambiar tema"
-                            )
-                        }
-
-                        DropdownMenu(
-                            expanded = mostrarTemas,
-                            onDismissRequest = { mostrarTemas = false }
-                        ) {
-                            listOf(
-                                "sistema" to "Sistema",
-                                "claro" to "Claro",
-                                "oscuro" to "Oscuro"
-                            ).forEach { (valor, etiqueta) ->
-                                DropdownMenuItem(
-                                    text = {
-                                        Text(
-                                            if (modoTema == valor) {
-                                                "✓ $etiqueta"
-                                            } else {
-                                                etiqueta
-                                            }
-                                        )
-                                    },
-                                    onClick = {
-                                        onCambiarTema(valor)
-                                        mostrarTemas = false
-                                    }
-                                )
-                            }
-                        }
-                    }
-                }
-            )
-        },
         floatingActionButton = {
             ExtendedFloatingActionButton(
+                modifier = Modifier.semantics { contentDescription = "Nueva rúbrica" },
                 onClick = onCrearRubrica,
                 icon = { Icon(Icons.Filled.Add, contentDescription = null) },
                 text = { Text("Nueva rúbrica") }
