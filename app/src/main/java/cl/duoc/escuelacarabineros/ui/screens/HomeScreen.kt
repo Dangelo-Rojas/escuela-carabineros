@@ -22,10 +22,13 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -61,10 +64,13 @@ fun HomeScreen(
     onHistorial: () -> Unit,
     onAdministrarCuentas: () -> Unit,
     onCerrarSesion: () -> Unit,
+    modoTema: String,
+    onCambiarTema: (String) -> Unit,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val estado by viewModel.uiState.collectAsState()
     var porEliminar by remember { mutableStateOf<RubricaConCriterios?>(null) }
+    var mostrarTemas by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -79,9 +85,9 @@ fun HomeScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                    actionIconContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.primaryContainer,
+                    titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
                 actions = {
                     // Solo el Administrador ve la gestión de cuentas
@@ -98,6 +104,42 @@ fun HomeScreen(
                         onCerrarSesion()
                     }) {
                         Icon(Icons.AutoMirrored.Filled.ExitToApp, contentDescription = "Cerrar sesión")
+                    }
+
+                    Box {
+                        IconButton(onClick = { mostrarTemas = true }) {
+                            Icon(
+                                imageVector = Icons.Filled.MoreVert,
+                                contentDescription = "Cambiar tema"
+                            )
+                        }
+
+                        DropdownMenu(
+                            expanded = mostrarTemas,
+                            onDismissRequest = { mostrarTemas = false }
+                        ) {
+                            listOf(
+                                "sistema" to "Sistema",
+                                "claro" to "Claro",
+                                "oscuro" to "Oscuro"
+                            ).forEach { (valor, etiqueta) ->
+                                DropdownMenuItem(
+                                    text = {
+                                        Text(
+                                            if (modoTema == valor) {
+                                                "✓ $etiqueta"
+                                            } else {
+                                                etiqueta
+                                            }
+                                        )
+                                    },
+                                    onClick = {
+                                        onCambiarTema(valor)
+                                        mostrarTemas = false
+                                    }
+                                )
+                            }
+                        }
                     }
                 }
             )
