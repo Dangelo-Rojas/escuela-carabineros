@@ -1,6 +1,8 @@
 package cl.duoc.escuelacarabineros.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
 
 // Paleta provisoria basada en los verdes y el amarillo institucionales.
 // Reemplazar por los códigos del manual de marca cuando la Escuela lo envíe.
@@ -25,5 +27,10 @@ val Rojo40 = Color(0xFFBA1A1A)
 val Rojo80 = Color(0xFFFFB4AB)
 
 // Colores semánticos para notas
-val NotaAprobada = Color(0xFF2B6A44)
-val NotaReprobada = Color(0xFFBA1A1A)
+val NotaAprobada: Color
+    @Composable
+    get() = MaterialTheme.colorScheme.primary
+
+val NotaReprobada: Color
+    @Composable
+    get() = MaterialTheme.colorScheme.error

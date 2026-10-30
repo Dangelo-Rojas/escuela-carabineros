@@ -28,6 +28,8 @@ private const val DURACION = 350
 @Composable
 fun AppNavigation(
     haySesion: Boolean,
+    modoTema: String,
+    onCambiarTema: (String) -> Unit,
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -56,6 +58,8 @@ fun AppNavigation(
 
         composable(Rutas.HOME) {
             HomeScreen(
+                modoTema = modoTema,
+                onCambiarTema = onCambiarTema,
                 onCrearRubrica = { navController.navigate(Rutas.CREAR_RUBRICA) },
                 onEvaluar = { id -> navController.navigate(Rutas.evaluar(id)) },
                 onEditar = { id -> navController.navigate(Rutas.editarRubrica(id)) },
